@@ -8,6 +8,7 @@ supports         "ubuntu", ">= 9.04"
 supports         "debian", ">= 6.0"
 supports         "centos", ">= 5.5"
 supports         "redhat", ">= 5.5"
+depends          "runit"
 
 recipe           "redis", "Installs and configures redis"
 

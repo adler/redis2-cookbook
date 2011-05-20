@@ -6,7 +6,7 @@ default[:redis][:user] =     "redis"
 default[:redis][:instances][:default][:bindaddress] = "0.0.0.0"
 default[:redis][:instances][:default][:port] = "6379"
 default[:redis][:instances][:default][:timeout] = 300
-default[:redis][:instances][:default][:dumpdb_filename] = "dump.db"
+default[:redis][:instances][:default][:dumpdb_filename] = "dump.rdb"
 default[:redis][:instances][:default][:data_dir] = "/var/lib/redis"
 default[:redis][:instances][:default][:activerehashing] = "yes" # no to disable, yes to enable
 default[:redis][:instances][:default][:databases] = 16
@@ -24,3 +24,4 @@ default[:redis][:instances][:default][:vm][:max_threads] = 4
 
 default[:redis][:instances][:default][:maxmemory_samples] = 3
 default[:redis][:instances][:default][:maxmemory_policy] = "volatile-lru"
+default[:redis][:instances][:default][:bgsave] = true

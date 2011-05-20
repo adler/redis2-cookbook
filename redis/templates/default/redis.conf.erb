@@ -14,7 +14,7 @@
 
 # By default Redis does not run as a daemon. Use 'yes' if you need it.
 # Note that Redis will write a pid file in /var/run/redis.pid when daemonized.
-daemonize yes
+daemonize no
 
 # When running daemonized, Redis writes a pid file in /var/run/redis.pid by
 # default. You can specify a custom pid file location here.
@@ -59,13 +59,13 @@ logfile <%= ::File.join(node[:redis][:log_dir], "redis_#{@instance_name}.log") %
 
 # To enable logging to the system logger, just set 'syslog-enabled' to yes,
 # and optionally update the other syslog parameters to suit your needs.
-# syslog-enabled no
+syslog-enabled yes
 
 # Specify the syslog identity.
-# syslog-ident redis
+syslog-ident redis
 
 # Specify the syslog facility.  Must be USER or between LOCAL0-LOCAL7.
-# syslog-facility local0
+syslog-facility USER
 
 # Set the number of databases. The default database is DB 0, you can select
 # a different one on a per-connection basis using SELECT <dbid> where
@@ -88,9 +88,11 @@ databases <%= @conf[:databases] %>
 #
 #   Note: you can disable saving at all commenting all the "save" lines.
 
+<% if @conf[:bgsave] %>
 save 900 1
 save 300 10
 save 60 10000
+<% end %>
 
 # Compress string objects using LZF when dump .rdb databases?
 # For default that's set to 'yes' as it's almost always a win.

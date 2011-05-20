@@ -16,6 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+include_recipe "runit"
 if node[:redis][:install_from] == "package"
   include_recipe "redis::package"
 else
@@ -44,4 +45,5 @@ end
 service "redis" do
   service_name value_for_platform(:default => "redis", [:ubuntu, :debian] => {:default => "redis-server"})
   action [:disable, :stop]
+  ignore_failure true
 end
