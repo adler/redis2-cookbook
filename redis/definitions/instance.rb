@@ -34,8 +34,8 @@ define :redis_instance, :port => nil, :data_dir => nil, :master => nil do
   # the most common use case when using search is to use some attributes of the node object from the search,
   # probably the ipaddress and the port. So to avoid incorrect port in attributes:
   if params[:port] and \
-    (not node[:redis][:instances][instance_name].has_key? :port or \
-     params[:port] != node[:redis][:instances][instance_name][:port])
+    (not node[:redis][:instances][params[:name]].attribute? :port or \
+     params[:port] != node[:redis][:instances][params[:name]][:port])
      raise InvalidResourceSpecification, "#{instance_name} port specified in recipe doesn't match port in attributes. You should avoid setting the port attribute manually if you are setting it via the definition body, otherwise you may break search consistency."
   end
 
