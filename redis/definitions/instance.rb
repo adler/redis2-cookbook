@@ -14,8 +14,9 @@ define :redis_instance, :port => nil, :data_dir => nil, :master => nil do
   conf = ::Mash.new(
     ::Chef::Mixin::DeepMerge.merge(
       node[:redis][:instances][:default].to_hash, node[:redis][:instances][params[:name]].to_hash
-    ).merge({:port => params[:port], :data_dir => params[:data_dir]})
-  )
+    ) )
+  conf.merge! :port => params[:port] if params[:port]
+  conf.merge! :data_dir => params[:data_dir] if params[:data_dir]
 
   # minimal checks to see data doesn't mix
   if conf[:data_dir] == node[:redis][:instances][:default][:data_dir]
@@ -33,9 +34,9 @@ define :redis_instance, :port => nil, :data_dir => nil, :master => nil do
 
   # the most common use case when using search is to use some attributes of the node object from the search,
   # probably the ipaddress and the port. So to avoid incorrect port in attributes:
+  node.default_unless[:redis][:instances][params[:name]][:port] = conf[:port]
   if params[:port] and \
-    (not node[:redis][:instances][params[:name]].attribute? :port or \
-     params[:port] != node[:redis][:instances][params[:name]][:port])
+     params[:port] != node[:redis][:instances][params[:name]][:port]
      raise InvalidResourceSpecification, "#{instance_name} port specified in recipe doesn't match port in attributes. You should avoid setting the port attribute manually if you are setting it via the definition body, otherwise you may break search consistency."
   end
 
