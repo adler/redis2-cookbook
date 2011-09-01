@@ -37,7 +37,7 @@ define :redis_instance, :port => nil, :data_dir => nil, :master => nil do
   node.default_unless[:redis][:instances][params[:name]][:port] = conf[:port]
   if params[:port] and \
      params[:port] != node[:redis][:instances][params[:name]][:port]
-     raise InvalidResourceSpecification, "#{instance_name} port specified in recipe doesn't match port in attributes. You should avoid setting the port attribute manually if you are setting it via the definition body, otherwise you may break search consistency."
+     raise ::Chef::Exceptions::InvalidResourceSpecification, "#{instance_name} port specified in recipe doesn't match port in attributes. You should avoid setting the port attribute manually if you are setting it via the definition body, otherwise you may break search consistency."
   end
 
   directory conf[:data_dir] do
