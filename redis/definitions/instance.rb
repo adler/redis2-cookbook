@@ -24,6 +24,7 @@ define :redis_instance, :port => nil, :data_dir => nil, :master => nil do
     node.set[:redis][:instances][params[:name]][:data_dir] = conf[:data_dir]
     Chef::Log.warn "Changing data_dir for #{instance_name} because it shouldn't be default." 
   end
+  node.set_unless[:redis][:instances][params[:name]][:data_dir] = conf[:data_dir]
 
   if conf[:vm][:swap_file].nil? or conf[:vm][:swap_file] == node[:redis][:instances][:default][:vm][:swap_file]
     conf[:vm][:swap_file] = ::File.join(
